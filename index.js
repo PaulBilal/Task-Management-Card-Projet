@@ -21,11 +21,11 @@ const generateTaskCard = ({id, url, title, type, description}) =>{
         <div class="card">
             <div class="card-header">
                 <div class="card-header d-flex justify-content-end">
-                    <button type="button" class="btn btn-outline-info">
-                        <i class="fas fa-pencil-alt"></i>
+                    <button type="button" class="btn btn-outline-info" name=${id} onclick="editTask(this)">
+                        <i class="fas fa-pencil-alt" name=${id} onclick="editTask(this)"></i>
                     <button>
                     <button type="button" class="btn btn-outline-danger" name=${id} onclick="deleteTask(this)">
-                        <i class="far fa-trash-alt"></i>
+                        <i class="far fa-trash-alt" name=${id} onclick="deleteTask(this)"></i>
                     <button>  
                 </div>
             </div>
@@ -59,11 +59,36 @@ const reloadTaskCard = () => {
 }
 
 const deleteTask = (e) => {
+    const targetID = e.getAttribute("name");
+    globalTaskData = globalTaskData.filter((cardData) => cardData.id!==targetID);
+    saveToLocalStorage();
+    window.location.reload();
+}
+
+const editTask = (e) => {
+    const targetID = e.getAttribute("name");
     console.log(e)
-    const targetID = e.target.getAttribute("name");
-    console.log(targetID)
-    const type = e.target.tagName;
-    console.log(type)
-    const removedTask = globalTaskData.filter((id) => id!==targetID);
-    globalTaskData = removedTask;
+    console.log(e.parentNode)
+    console.log(e.parentNode.parentNode.parentNode.childNodes)
+    console.log(e.parentNode.parentNode.parentNode.childNodes[5].childNodes[1])
+    console.log(e.parentNode.parentNode.parentNode.childNodes[5].childNodes[3])
+    console.log(e.parentNode.parentNode.parentNode.childNodes[5].childNodes[5])
+
+    e.parentNode.parentNode.parentNode.childNodes[5].childNodes[1].setAttribute("contenteditable", "true")
+    e.parentNode.parentNode.parentNode.childNodes[5].childNodes[3].setAttribute("contenteditable", "true")
+    e.parentNode.parentNode.parentNode.childNodes[5].childNodes[5].setAttribute("contenteditable", "true")
+    
+    console.log(e.parentNode.parentNode.parentNode.childNodes[7].childNodes[1])
+    e.parentNode.parentNode.parentNode.childNodes[7].childNodes[1].setAttribute("onclick", "saveEditTask(this)")
+    e.parentNode.parentNode.parentNode.childNodes[7].childNodes[1].innerHTML = "Save Changes"
+}
+
+const saveEditTask = (e) => {
+    const targetID = e.getAttribute("name");
+    console.log(e)
+    /*console.log(e.parentNode)
+    console.log(e.parentNode.parentNode.parentNode.childNodes)
+    console.log(e.parentNode.parentNode.parentNode.childNodes[5].childNodes[1])
+    console.log(e.parentNode.parentNode.parentNode.childNodes[5].childNodes[3])
+    console.log(e.parentNode.parentNode.parentNode.childNodes[5].childNodes[5])*/
 }
